@@ -67,4 +67,7 @@ export type Screen =
   | 'my-hours'
   | 'company-dash'
   | 'post-opportunity'
-  | 'apply'
+  | 'creators'
+  | 'creator-muhssina'
+  | 'creator-sincere'
+  | 'creator-juan'

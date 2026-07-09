@@ -9,8 +9,16 @@ import EventDetailScreen from './screens/EventDetailScreen'
 import MyHoursScreen from './screens/MyHoursScreen'
 import CompanyDashScreen from './screens/CompanyDashScreen'
 import PostOpportunityScreen from './screens/PostOpportunityScreen'
+import CreatorsScreen from './screens/CreatorsScreen'
+import CreatorMuhssinaScreen from './screens/CreatorMuhssinaScreen'
+import CreatorSincereScreen from './screens/CreatorSincereScreen'
+import CreatorJuanScreen from './screens/CreatorJuanScreen'
 import Nav from './components/Nav'
+import TopBar from './components/TopBar'
 import type { Event, Screen } from './types'
+
+const CREATOR_SCREENS: Screen[] = ['creators', 'creator-muhssina', 'creator-sincere', 'creator-juan']
+const PUBLIC_SCREENS: Screen[] = ['landing', 'login', 'signup-volunteer', 'signup-company', ...CREATOR_SCREENS]
 
 function AppContent() {
   const { user, volunteerProfile, companyProfile, loading } = useAuth()
@@ -20,11 +28,11 @@ function AppContent() {
   useEffect(() => {
     if (loading) return
     if (!user) {
-      setScreen('landing')
+      if (!PUBLIC_SCREENS.includes(screen)) setScreen('landing')
     } else if (volunteerProfile) {
-      setScreen('browse')
+      if (['landing', 'login', 'signup-volunteer', 'signup-company'].includes(screen)) setScreen('browse')
     } else if (companyProfile) {
-      setScreen('company-dash')
+      if (['landing', 'login', 'signup-volunteer', 'signup-company'].includes(screen)) setScreen('company-dash')
     }
   }, [user, volunteerProfile, companyProfile, loading])
 
@@ -41,30 +49,49 @@ function AppContent() {
 
   const isAuthenticated = !!(user && (volunteerProfile || companyProfile))
 
-  // Public screens
+  // Creator pages — always accessible, no app nav needed
+  if (CREATOR_SCREENS.includes(screen)) {
+    return (
+      <>
+        <TopBar onNavigate={setScreen} screen={screen} />
+        <div className="pt-9">
+          {screen === 'creators' && <CreatorsScreen onNavigate={setScreen} />}
+          {screen === 'creator-muhssina' && <CreatorMuhssinaScreen onNavigate={setScreen} />}
+          {screen === 'creator-sincere' && <CreatorSincereScreen onNavigate={setScreen} />}
+          {screen === 'creator-juan' && <CreatorJuanScreen onNavigate={setScreen} />}
+        </div>
+      </>
+    )
+  }
+
+  // Public screens (not authenticated)
   if (!isAuthenticated) {
-    if (screen === 'login') return <LoginScreen onNavigate={setScreen} />
-    if (screen === 'signup-volunteer') return <SignupVolunteerScreen onNavigate={setScreen} />
-    if (screen === 'signup-company') return <SignupCompanyScreen onNavigate={setScreen} />
-    return <LandingScreen onNavigate={setScreen} />
+    return (
+      <>
+        <TopBar onNavigate={setScreen} screen={screen} />
+        <div className="pt-9">
+          {screen === 'login' && <LoginScreen onNavigate={setScreen} />}
+          {screen === 'signup-volunteer' && <SignupVolunteerScreen onNavigate={setScreen} />}
+          {screen === 'signup-company' && <SignupCompanyScreen onNavigate={setScreen} />}
+          {!['login', 'signup-volunteer', 'signup-company'].includes(screen) && <LandingScreen onNavigate={setScreen} />}
+        </div>
+      </>
+    )
   }
 
   // Authenticated screens
   return (
-    <div>
+    <>
       <Nav screen={screen} onNavigate={setScreen} />
-      <div className="pt-14">
-        {screen === 'browse' && (
-          <BrowseScreen onNavigate={setScreen} onSelectEvent={setSelectedEvent} />
-        )}
-        {screen === 'event-detail' && (
-          <EventDetailScreen event={selectedEvent} onNavigate={setScreen} />
-        )}
+      {/* pt-9 (top bar) + pt-14 (main nav) = pt-23 */}
+      <div className="pt-[92px]">
+        {screen === 'browse' && <BrowseScreen onNavigate={setScreen} onSelectEvent={setSelectedEvent} />}
+        {screen === 'event-detail' && <EventDetailScreen event={selectedEvent} onNavigate={setScreen} />}
         {screen === 'my-hours' && <MyHoursScreen />}
         {screen === 'company-dash' && <CompanyDashScreen onNavigate={setScreen} />}
         {screen === 'post-opportunity' && <PostOpportunityScreen onNavigate={setScreen} />}
       </div>
-    </div>
+    </>
   )
 }
 

@@ -9,18 +9,12 @@ interface AuthContextValue {
   volunteerProfile: VolunteerProfile | null
   companyProfile: CompanyProfile | null
   loading: boolean
-  refreshProfile: () => Promise<void>
   signOut: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextValue>({
-  user: null,
-  session: null,
-  volunteerProfile: null,
-  companyProfile: null,
-  loading: true,
-  refreshProfile: async () => {},
-  signOut: async () => {},
+  user: null, session: null, volunteerProfile: null, companyProfile: null,
+  loading: true, signOut: async () => {},
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -37,10 +31,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     ])
     setVolunteerProfile(vol)
     setCompanyProfile(comp)
-  }
-
-  async function refreshProfile() {
-    if (user) await loadProfile(user.id)
   }
 
   useEffect(() => {
@@ -72,12 +62,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => subscription.unsubscribe()
   }, [])
 
-  async function signOut() {
-    await supabase.auth.signOut()
-  }
-
   return (
-    <AuthContext.Provider value={{ user, session, volunteerProfile, companyProfile, loading, refreshProfile, signOut }}>
+    <AuthContext.Provider value={{
+      user, session, volunteerProfile, companyProfile, loading,
+      signOut: async () => { await supabase.auth.signOut() },
+    }}>
       {children}
     </AuthContext.Provider>
   )
