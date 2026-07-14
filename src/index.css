@@ -10,3 +10,21 @@ body {
 
 .font-playfair { font-family: 'Playfair Display', serif; }
 .font-dancing  { font-family: 'Dancing Script', cursive; }
+
+/* Vine animation keyframes */
+@keyframes sway {
+  0%, 100% { transform: rotate(-2deg) scale(1); }
+  50%       { transform: rotate(2deg) scale(1.01); }
+}
+@keyframes sway-r {
+  0%, 100% { transform: rotate(2deg) scale(1); }
+  50%       { transform: rotate(-2deg) scale(1.01); }
+}
+@keyframes leaf-drift {
+  0%, 100% { transform: translateY(0px) rotate(-5deg); }
+  50%       { transform: translateY(-6px) rotate(5deg); }
+}
+
+.vine-sway   { animation: sway   12s ease-in-out infinite; transform-origin: bottom center; }
+.vine-sway-r { animation: sway-r 14s ease-in-out infinite; transform-origin: bottom center; }
+.leaf-drift  { animation: leaf-drift 6s ease-in-out infinite; }

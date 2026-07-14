@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { MapPin, Clock, Users, ChevronRight, Globe, Mail, Phone, ChevronDown, ChevronUp } from 'lucide-react'
+import VineBg from '../components/VineBg'
 import { supabase } from '../lib/supabase'
 import { CATEGORY_ICONS, CATEGORY_COLORS } from '../lib/constants'
 import { useAuth } from '../context/AuthContext'
@@ -39,8 +40,9 @@ export default function CompanyDashScreen({ onNavigate }: Props) {
   const totalSpots = events.reduce((s, e) => s + e.spots, 0)
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b border-gray-100 px-6 pt-8 pb-6">
+    <div className="min-h-screen bg-gray-50 relative">
+      <VineBg opacity={0.04} />
+      <div className="bg-white/80 backdrop-blur-sm border-b border-gray-100 px-6 pt-8 pb-6 relative z-10">
         <div className="max-w-6xl mx-auto">
           <p className="text-xs text-green-700 font-medium uppercase tracking-wide mb-1">Organization dashboard</p>
           <h1 className="text-2xl font-semibold text-gray-900">{companyProfile?.company_name}</h1>
@@ -51,14 +53,14 @@ export default function CompanyDashScreen({ onNavigate }: Props) {
           </div>
         </div>
       </div>
-      <div className="max-w-6xl mx-auto px-6 py-8">
+      <div className="max-w-6xl mx-auto px-6 py-8 relative z-10">
         <div className="grid grid-cols-3 gap-4 mb-8">
           {[{ label: 'Active events', value: events.length }, { label: 'Total spots', value: totalSpots }, { label: 'Total applicants', value: applicants.length }].map(s => (
-            <div key={s.label} className="bg-white rounded-2xl border border-gray-100 p-4 text-center"><p className="text-3xl font-bold text-gray-900">{s.value}</p><p className="text-xs text-gray-500 mt-1">{s.label}</p></div>
+            <div key={s.label} className="bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-100 p-4 text-center"><p className="text-3xl font-bold text-gray-900">{s.value}</p><p className="text-xs text-gray-500 mt-1">{s.label}</p></div>
           ))}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+          <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-100 overflow-hidden">
             <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
               <h2 className="font-semibold text-gray-900 text-sm">Your posts</h2>
               <button onClick={() => onNavigate('post-opportunity')} className="text-xs bg-green-600 text-white px-3 py-1.5 rounded-full hover:bg-green-700 transition">+ New</button>
@@ -85,7 +87,7 @@ export default function CompanyDashScreen({ onNavigate }: Props) {
           <div className="lg:col-span-2 space-y-4">
             {activeEvent ? (
               <>
-                <div className="bg-white rounded-2xl border border-gray-100 p-5">
+                <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-100 p-5">
                   <div className="flex items-start justify-between gap-4 mb-3">
                     <div>
                       <span className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${CATEGORY_COLORS[activeEvent.category as Exclude<Category, 'All'>]}`}>{CATEGORY_ICONS[activeEvent.category as Exclude<Category, 'All'>]} {activeEvent.category}</span>
@@ -100,7 +102,7 @@ export default function CompanyDashScreen({ onNavigate }: Props) {
                   </div>
                   <p className="text-sm text-gray-600 leading-relaxed">{activeEvent.description}</p>
                 </div>
-                <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-100 overflow-hidden">
                   <div className="px-5 py-4 border-b border-gray-100"><h3 className="font-semibold text-gray-900 text-sm">Applicants — {loadingApplicants ? '…' : applicants.length} received</h3></div>
                   {loadingApplicants ? (
                     <div className="p-4 space-y-2">{[...Array(3)].map((_, i) => <div key={i} className="h-12 bg-gray-50 rounded-xl animate-pulse" />)}</div>
@@ -131,7 +133,7 @@ export default function CompanyDashScreen({ onNavigate }: Props) {
                 </div>
               </>
             ) : (
-              <div className="bg-white rounded-2xl border border-gray-100 flex items-center justify-center h-64 text-gray-400 text-sm">Select an event to see details</div>
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-100 flex items-center justify-center h-64 text-gray-400 text-sm">Select an event to see details</div>
             )}
           </div>
         </div>

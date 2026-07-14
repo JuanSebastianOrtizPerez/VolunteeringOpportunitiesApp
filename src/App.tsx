@@ -49,7 +49,7 @@ function AppContent() {
 
   const isAuthenticated = !!(user && (volunteerProfile || companyProfile))
 
-  // Creator pages — always accessible, no app nav needed
+  // Creator pages — always accessible
   if (CREATOR_SCREENS.includes(screen)) {
     return (
       <>
@@ -83,7 +83,6 @@ function AppContent() {
   return (
     <>
       <Nav screen={screen} onNavigate={setScreen} />
-      {/* pt-9 (top bar) + pt-14 (main nav) = pt-23 */}
       <div className="pt-[92px]">
         {screen === 'browse' && <BrowseScreen onNavigate={setScreen} onSelectEvent={setSelectedEvent} />}
         {screen === 'event-detail' && <EventDetailScreen event={selectedEvent} onNavigate={setScreen} />}

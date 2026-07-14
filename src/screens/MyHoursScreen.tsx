@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Clock, Calendar, Award, Star, Gift } from 'lucide-react'
+import VineBg from '../components/VineBg'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../context/AuthContext'
 import type { HourEntry } from '../types'
@@ -20,28 +21,29 @@ export default function MyHoursScreen() {
   const badgeColor = badgeLevel === 'Gold' ? 'text-yellow-600' : badgeLevel === 'Silver' ? 'text-gray-500' : 'text-amber-700'
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b border-gray-100 px-6 pt-8 pb-6">
+    <div className="min-h-screen bg-gray-50 relative">
+      <VineBg opacity={0.04} />
+      <div className="bg-white/80 backdrop-blur-sm border-b border-gray-100 px-6 pt-8 pb-6 relative z-10">
         <div className="max-w-3xl mx-auto">
           <p className="text-xs text-green-700 font-medium uppercase tracking-wide mb-1">Your impact</p>
           <h1 className="text-2xl font-semibold text-gray-900">Service hours</h1>
         </div>
       </div>
-      <div className="max-w-3xl mx-auto px-6 py-8">
+      <div className="max-w-3xl mx-auto px-6 py-8 relative z-10">
         <div className="grid grid-cols-3 gap-4 mb-8">
           {[
             { label: 'Total hours', value: totalHours, icon: <Clock size={18} className="text-green-600" /> },
             { label: 'Events attended', value: entries.length, icon: <Calendar size={18} className="text-sky-600" /> },
             { label: 'Badge level', value: badgeLevel, icon: <Award size={18} className={badgeColor} /> },
           ].map(s => (
-            <div key={s.label} className="bg-white rounded-2xl border border-gray-100 p-4 text-center">
+            <div key={s.label} className="bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-100 p-4 text-center">
               <div className="flex justify-center mb-2">{s.icon}</div>
               <p className="text-2xl font-bold text-gray-900">{s.value}</p>
               <p className="text-xs text-gray-500 mt-0.5">{s.label}</p>
             </div>
           ))}
         </div>
-        <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+        <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-100 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
             <h2 className="font-semibold text-gray-900">Service log</h2>
             <span className="text-sm text-gray-400">{entries.length} entries</span>

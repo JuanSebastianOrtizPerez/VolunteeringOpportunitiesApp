@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Eye, EyeOff, ArrowLeft } from 'lucide-react'
+import GivelyLogo from '../components/GivelyLogo'
+import VineBg from '../components/VineBg'
 import { supabase } from '../lib/supabase'
 import type { Screen } from '../types'
 
@@ -24,35 +26,32 @@ export default function SignupVolunteerScreen({ onNavigate }: Props) {
     if (pe) setError(pe.message)
   }
 
+  const inp = "w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-400 transition"
+
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <div className="p-6"><button onClick={() => onNavigate('landing')} className="flex items-center gap-2 text-gray-500 hover:text-gray-700 text-sm transition-colors"><ArrowLeft size={16} /> Back</button></div>
-      <div className="flex-1 flex items-center justify-center px-6 pb-16">
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 w-full max-w-md">
+    <div className="min-h-screen bg-gray-50 flex flex-col relative">
+      <VineBg opacity={0.05} />
+      <div className="p-6 relative z-10"><button onClick={() => onNavigate('landing')} className="flex items-center gap-2 text-gray-500 hover:text-gray-700 text-sm transition-colors"><ArrowLeft size={16} /> Back</button></div>
+      <div className="flex-1 flex items-center justify-center px-6 pb-16 relative z-10">
+        <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 p-8 w-full max-w-md">
           <div className="mb-8">
-            <span className="text-xl font-bold text-green-700">Gively</span>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-4">Volunteer sign up</h2>
+            <div className="flex items-center gap-2 mb-4">
+              <GivelyLogo size={36} />
+              <span className="text-xl font-bold text-green-700">Gively</span>
+            </div>
+            <h2 className="text-2xl font-semibold text-gray-900">Volunteer sign up</h2>
             <p className="text-gray-500 mt-1 text-sm">Start making a difference today.</p>
           </div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">First name</label>
-                <input value={form.firstName} onChange={set('firstName')} required placeholder="Jordan" className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-400 transition" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">Last name</label>
-                <input value={form.lastName} onChange={set('lastName')} required placeholder="Rivera" className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-400 transition" />
-              </div>
+              <div><label className="block text-sm font-medium text-gray-700 mb-1.5">First name</label><input value={form.firstName} onChange={set('firstName')} required placeholder="Jordan" className={inp} /></div>
+              <div><label className="block text-sm font-medium text-gray-700 mb-1.5">Last name</label><input value={form.lastName} onChange={set('lastName')} required placeholder="Rivera" className={inp} /></div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
-              <input type="email" value={form.email} onChange={set('email')} required placeholder="you@example.com" className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-400 transition" />
-            </div>
+            <div><label className="block text-sm font-medium text-gray-700 mb-1.5">Email</label><input type="email" value={form.email} onChange={set('email')} required placeholder="you@example.com" className={inp} /></div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
               <div className="relative">
-                <input type={showPass ? 'text' : 'password'} value={form.password} onChange={set('password')} required placeholder="min. 6 characters" minLength={6} className="w-full border border-gray-200 rounded-xl px-4 py-3 pr-11 text-sm focus:outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-400 transition" />
+                <input type={showPass ? 'text' : 'password'} value={form.password} onChange={set('password')} required placeholder="min. 6 characters" minLength={6} className={inp + ' pr-11'} />
                 <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">{showPass ? <EyeOff size={16} /> : <Eye size={16} />}</button>
               </div>
             </div>

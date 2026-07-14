@@ -1,17 +1,22 @@
-import { ArrowRight, Heart, Leaf, BookOpen, Users } from 'lucide-react'
+import { ArrowRight, Leaf, BookOpen, Users } from 'lucide-react'
+import GivelyLogo from '../components/GivelyLogo'
+import VineBg from '../components/VineBg'
 import type { Screen } from '../types'
 
-interface Props {
-  onNavigate: (screen: Screen) => void
-}
+interface Props { onNavigate: (screen: Screen) => void }
 
 export default function LandingScreen({ onNavigate }: Props) {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white relative">
+      <VineBg opacity={0.06} />
+
       {/* Landing nav sits below the green TopBar at top-9 */}
       <nav className="fixed top-9 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-          <span className="text-xl font-bold text-green-700 tracking-tight">Gively</span>
+          <div className="flex items-center gap-2">
+            <GivelyLogo size={32} />
+            <span className="text-xl font-bold text-green-700 tracking-tight">Gively</span>
+          </div>
           <div className="flex items-center gap-3">
             <button onClick={() => onNavigate('login')} className="text-sm text-gray-600 hover:text-gray-900 px-4 py-2 transition-colors">Sign in</button>
             <button onClick={() => onNavigate('signup-volunteer')} className="text-sm bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition-colors">Get started</button>
@@ -19,10 +24,10 @@ export default function LandingScreen({ onNavigate }: Props) {
         </div>
       </nav>
 
-      <section className="pt-28 pb-20 px-6">
+      <section className="pt-32 pb-20 px-6 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 text-sm font-medium px-4 py-2 rounded-full mb-8 border border-green-100">
-            <Heart size={14} className="fill-green-600" />
+            <GivelyLogo size={18} />
             Community volunteering platform
           </div>
           <h1 className="font-playfair text-5xl md:text-7xl font-bold text-gray-900 leading-tight mb-6">
@@ -33,30 +38,24 @@ export default function LandingScreen({ onNavigate }: Props) {
             Browse open volunteer opportunities below. Sign up to apply and make a lasting impact in your community.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => onNavigate('signup-volunteer')}
-              className="inline-flex items-center gap-2 bg-green-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-green-700 transition-all hover:shadow-lg hover:shadow-green-200 text-base"
-            >
+            <button onClick={() => onNavigate('signup-volunteer')} className="inline-flex items-center gap-2 bg-green-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-green-700 transition-all hover:shadow-lg hover:shadow-green-200 text-base">
               I want to volunteer <ArrowRight size={18} />
             </button>
-            <button
-              onClick={() => onNavigate('signup-company')}
-              className="inline-flex items-center gap-2 border border-gray-200 text-gray-700 px-8 py-4 rounded-full font-semibold hover:border-gray-300 hover:bg-gray-50 transition-all text-base"
-            >
+            <button onClick={() => onNavigate('signup-company')} className="inline-flex items-center gap-2 border border-gray-200 text-gray-700 px-8 py-4 rounded-full font-semibold hover:border-gray-300 hover:bg-gray-50 transition-all text-base">
               Post opportunities
             </button>
           </div>
         </div>
       </section>
 
-      <section className="pb-20 px-6">
+      <section className="pb-20 px-6 relative z-10">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
             { icon: <Leaf size={22} className="text-emerald-600" />, bg: 'bg-emerald-50', title: 'Environment', desc: 'Plant trees, clean parks, and restore green spaces in your city.' },
             { icon: <BookOpen size={22} className="text-sky-600" />, bg: 'bg-sky-50', title: 'Education', desc: 'Tutor students, lead workshops, and open doors to opportunity.' },
             { icon: <Users size={22} className="text-amber-600" />, bg: 'bg-amber-50', title: 'Community', desc: 'Connect neighbors, organize events, and build belonging.' },
           ].map(f => (
-            <div key={f.title} className="bg-white rounded-2xl p-6 border border-gray-100 hover:border-gray-200 hover:shadow-sm transition-all">
+            <div key={f.title} className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-100 hover:border-gray-200 hover:shadow-sm transition-all">
               <div className={`${f.bg} w-10 h-10 rounded-xl flex items-center justify-center mb-4`}>{f.icon}</div>
               <h3 className="font-semibold text-gray-900 mb-2">{f.title}</h3>
               <p className="text-sm text-gray-500 leading-relaxed">{f.desc}</p>
@@ -65,7 +64,7 @@ export default function LandingScreen({ onNavigate }: Props) {
         </div>
       </section>
 
-      <section className="pb-24 px-6 bg-gray-50">
+      <section className="pb-24 px-6 bg-gray-50/80 relative z-10">
         <div className="max-w-5xl mx-auto pt-16">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-2xl font-semibold text-gray-900">Open opportunities</h2>
@@ -97,9 +96,12 @@ export default function LandingScreen({ onNavigate }: Props) {
         </div>
       </section>
 
-      <footer className="bg-white border-t border-gray-100 py-8 px-6">
+      <footer className="bg-white border-t border-gray-100 py-8 px-6 relative z-10">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span className="text-lg font-bold text-green-700">Gively</span>
+          <div className="flex items-center gap-2">
+            <GivelyLogo size={24} />
+            <span className="text-lg font-bold text-green-700">Gively</span>
+          </div>
           <p className="text-sm text-gray-400">Making giving accessible to everyone.</p>
         </div>
       </footer>

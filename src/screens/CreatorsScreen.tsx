@@ -1,4 +1,5 @@
 import { ArrowLeft, ArrowRight } from 'lucide-react'
+import VineBg from '../components/VineBg'
 import type { Screen } from '../types'
 
 interface Props {
@@ -46,15 +47,12 @@ const CREATORS = [
 
 export default function CreatorsScreen({ onNavigate }: Props) {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        <button
-          onClick={() => onNavigate('landing')}
-          className="flex items-center gap-2 text-gray-400 hover:text-gray-600 text-sm mb-10 transition-colors"
-        >
+    <div className="min-h-screen bg-gray-50 relative">
+      <VineBg opacity={0.05} />
+      <div className="max-w-4xl mx-auto px-6 py-12 relative z-10">
+        <button onClick={() => onNavigate('landing')} className="flex items-center gap-2 text-gray-400 hover:text-gray-600 text-sm mb-10 transition-colors">
           <ArrowLeft size={15} /> Back
         </button>
-
         <div className="text-center mb-12">
           <p className="text-xs text-green-700 font-semibold uppercase tracking-widest mb-3">TTL Summer Camp 2026</p>
           <h1 className="text-4xl font-bold text-gray-900 mb-3">Meet the creators</h1>
@@ -62,17 +60,10 @@ export default function CreatorsScreen({ onNavigate }: Props) {
             The team behind Gively — three creators who built this platform to make giving accessible to everyone.
           </p>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {CREATORS.map(c => (
-            <button
-              key={c.name}
-              onClick={() => onNavigate(c.screen)}
-              className={`${c.bg} border ${c.border} rounded-2xl p-6 text-left hover:shadow-md hover:-translate-y-1 transition-all group`}
-            >
-              <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${c.color} flex items-center justify-center text-white font-bold text-lg mb-4 shadow-sm`}>
-                {c.initials}
-              </div>
+            <button key={c.name} onClick={() => onNavigate(c.screen)} className={`${c.bg} border ${c.border} rounded-2xl p-6 text-left hover:shadow-md hover:-translate-y-1 transition-all group`}>
+              <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${c.color} flex items-center justify-center text-white font-bold text-lg mb-4 shadow-sm`}>{c.initials}</div>
               <p className={`text-xs font-semibold uppercase tracking-wide ${c.text} mb-1`}>{c.role}</p>
               <h3 className="text-lg font-semibold text-gray-900 mb-3">{c.name}</h3>
               <p className="text-sm text-gray-500 leading-relaxed mb-4 line-clamp-3">{c.contribution}</p>

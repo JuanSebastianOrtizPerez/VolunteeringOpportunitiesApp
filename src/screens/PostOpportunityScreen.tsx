@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ArrowLeft, CheckCircle, Plus, X } from 'lucide-react'
+import VineBg from '../components/VineBg'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../context/AuthContext'
 import type { Category, Screen } from '../types'
@@ -50,8 +51,9 @@ export default function PostOpportunityScreen({ onNavigate }: Props) {
   const inp = "w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-400 transition bg-white"
 
   if (success) return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-6">
-      <div className="bg-white rounded-2xl border border-gray-100 p-10 max-w-sm w-full text-center">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-6 relative">
+      <VineBg opacity={0.05} />
+      <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-100 p-10 max-w-sm w-full text-center relative z-10">
         <div className="w-14 h-14 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4"><CheckCircle size={28} className="text-green-600" /></div>
         <h2 className="text-xl font-semibold text-gray-900 mb-2">Opportunity posted!</h2>
         <p className="text-sm text-gray-500">Your listing is live. Redirecting to your dashboard…</p>
@@ -60,8 +62,9 @@ export default function PostOpportunityScreen({ onNavigate }: Props) {
   )
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b border-gray-100 px-6 pt-8 pb-6">
+    <div className="min-h-screen bg-gray-50 relative">
+      <VineBg opacity={0.04} />
+      <div className="bg-white/80 backdrop-blur-sm border-b border-gray-100 px-6 pt-8 pb-6 relative z-10">
         <div className="max-w-2xl mx-auto">
           <button onClick={() => onNavigate('company-dash')} className="flex items-center gap-2 text-gray-500 hover:text-gray-700 text-sm mb-4 transition-colors"><ArrowLeft size={16} /> Back to dashboard</button>
           <p className="text-xs text-green-700 font-medium uppercase tracking-wide mb-1">New listing</p>
@@ -69,8 +72,8 @@ export default function PostOpportunityScreen({ onNavigate }: Props) {
           <p className="text-sm text-gray-400 mt-1">This will be listed publicly and attributed to {companyProfile?.company_name}.</p>
         </div>
       </div>
-      <div className="max-w-2xl mx-auto px-6 py-8">
-        <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 p-6 space-y-5">
+      <div className="max-w-2xl mx-auto px-6 py-8 relative z-10">
+        <form onSubmit={handleSubmit} className="bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-100 p-6 space-y-5">
           <div><label className="block text-sm font-medium text-gray-700 mb-1.5">Opportunity title</label><input value={form.title} onChange={set('title')} required placeholder="e.g. Youth Coding Instructor" className={inp} /></div>
           <div><label className="block text-sm font-medium text-gray-700 mb-1.5">Category</label><select value={form.category} onChange={set('category')} className={inp}>{CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}</select></div>
           <div className="grid grid-cols-2 gap-4">
